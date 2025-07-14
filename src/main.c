@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define N 8 // chessboard size (NxN)
 
@@ -78,7 +79,16 @@ void bruteForce() {
 }
 
 void main() {
+    clock_t start, end;
+    double cpu_time;
+
+    start = clock();
+
     resetBoard();
     bruteForce();
     printf("Brute force search completed.\n");
+
+    end = clock();
+    cpu_time = ((double)(end - start)) / CLOCKS_PER_SEC;
+    printf("Time taken: %.5f seconds\n", cpu_time);
 }
