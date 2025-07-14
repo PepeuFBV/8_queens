@@ -36,6 +36,17 @@ void resetBoard() {
     }
 }
 
+bool isValidSolution(Position *positions) {
+    for (int i = 0; i < N; i++) {
+        for (int j = i + 1; j < N; j++) {
+            if (positions[i].row == positions[j].row) return false; // same row
+            if (positions[i].col == positions[j].col) return false; // same column
+            if (abs(positions[i].row - positions[j].row) == abs(positions[i].col - positions[j].col)) return false; // same diagonal
+        }
+    }
+    return true;
+}
+
 void main() {
     Position positions[N] = {
         {0, 0}
