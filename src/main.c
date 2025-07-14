@@ -28,6 +28,14 @@ void addToBoard(Position *positions) {
     }
 }
 
+void resetBoard() {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            board[i][j] = false;
+        }
+    }
+}
+
 void main() {
     Position positions[N] = {
         {0, 0}
