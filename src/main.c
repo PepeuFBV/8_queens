@@ -1,7 +1,6 @@
-// 8 queens problem solution in C
-
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #define N 8 // chessboard size (NxN)
 
@@ -47,10 +46,39 @@ bool isValidSolution(Position *positions) {
     return true;
 }
 
+void generateCombinations(Position *positions, int *columns, int index, int *solutionCount) {
+    if (index == N) { // all queens are placed
+        if (isValidSolution(positions)) {
+            (*solutionCount)++;
+            printf("Solution %d:\n", *solutionCount);
+            resetBoard();
+            addToBoard(positions);
+            printBoard();
+        }
+        return;
+    }
+    
+    for (int col = 0; col < N; col++) { // try placing queen in each column
+        positions[index].row = index;
+        positions[index].col = col;
+        generateCombinations(positions, columns, index + 1, solutionCount);
+    }
+}
+
+void bruteForce() {
+    Position positions[N];
+    int columns[N];
+    int solutionCount = 0;
+    
+    printf("Starting brute force search for 8 Queens solutions...\n\n");
+    
+    generateCombinations(positions, columns, 0, &solutionCount);
+    
+    printf("Total solutions found: %d\n", solutionCount);
+}
+
 void main() {
-    Position positions[N] = {
-        {0, 0}
-    };
-    addToBoard(positions);
-    printBoard();
+    resetBoard();
+    bruteForce();
+    printf("Brute force search completed.\n");
 }
