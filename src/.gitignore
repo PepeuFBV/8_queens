@@ -1,0 +1,12 @@
+# ignore all files except C source/header, .gitignore, and README.md
+*
+!*.c
+!*.h
+!.gitignore
+!README.md
+
+# ignore GCC generated files
+*.o
+*.out
+*.exe
+a.out
