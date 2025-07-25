@@ -13,8 +13,8 @@ bool isValidSolution(Position *positions) {
     return true;
 }
 
-void generateCombinations(Position *positions, int index, int *solutionCount) {
-    if (index == N) {
+void bruteForceHelper(Position *positions, int placed, int *solutionCount, int start) {
+    if (placed == N) {
         if (isValidSolution(positions)) {
             (*solutionCount)++;
             printf("Solution %d:\n", *solutionCount);
@@ -24,22 +24,21 @@ void generateCombinations(Position *positions, int index, int *solutionCount) {
         }
         return;
     }
-    for (int col = 0; col < N; col++) {
-        positions[index].row = index;
-        positions[index].col = col;
-        generateCombinations(positions, index + 1, solutionCount);
+    for (int i = start; i < N * N; i++) {
+        positions[placed].row = i / N;
+        positions[placed].col = i % N;
+        bruteForceHelper(positions, placed + 1, solutionCount, i + 1);
     }
 }
 
 void bruteForce(int *solutionCount) {
     Position positions[N];
-    generateCombinations(positions, 0, solutionCount);
+    bruteForceHelper(positions, 0, solutionCount, 0);
 }
 
 bool isSafe(Position *positions, int row, int col) {
     for (int i = 0; i < row; i++) {
-        if (positions[i].col == col ||
-            abs(positions[i].row - row) == abs(positions[i].col - col)) {
+        if (positions[i].col == col || abs(positions[i].row - row) == abs(positions[i].col - col)) { // checks if the position is "under attack"
             return false;
         }
     }

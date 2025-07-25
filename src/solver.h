@@ -11,7 +11,9 @@ typedef enum {
 void solveQueens(SolverApproach approach);
 
 bool isValidSolution(Position *positions);
-void bruteForce();
-void backtracking();
+void bruteForceHelper(Position *positions, int placed, int *solutionCount, int start);
+void bruteForce(int *solutionCount);
+bool isSafe(Position *positions, int row, int col);
+void backtracking(Position *positions, int row, int *solutionCount);
 
 #endif // SOLVER_H
