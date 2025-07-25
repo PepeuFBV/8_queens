@@ -31,10 +31,50 @@ void generateCombinations(Position *positions, int index, int *solutionCount) {
     }
 }
 
-void bruteForce() {
+void bruteForce(int *solutionCount) {
+    Position positions[N];
+    generateCombinations(positions, 0, solutionCount);
+}
+
+bool isSafe(Position *positions, int row, int col) {
+    for (int i = 0; i < row; i++) {
+        if (positions[i].col == col ||
+            abs(positions[i].row - row) == abs(positions[i].col - col)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void backtracking(Position *positions, int row, int *solutionCount) {
+    if (row == N) {
+        (*solutionCount)++;
+        printf("Solution %d:\n", *solutionCount);
+        resetBoard();
+        addToBoard(positions);
+        printBoard();
+        return;
+    }
+    for (int col = 0; col < N; col++) {
+        if (isSafe(positions, row, col)) {
+            positions[row].row = row;
+            positions[row].col = col;
+            backtracking(positions, row + 1, solutionCount);
+        }
+    }
+}
+
+void solveQueens(SolverApproach approach) {
     Position positions[N];
     int solutionCount = 0;
-    printf("Starting brute force search for 8 Queens solutions...\n\n");
-    generateCombinations(positions, 0, &solutionCount);
-    printf("Total solutions found: %d\n", solutionCount);
+
+    if (approach == BACKTRACKING) {
+        printf("Starting backtracking search for 8 Queens solutions...\n\n");
+        backtracking(positions, 0, &solutionCount);
+        printf("Total solutions for backtracking: %d\n", solutionCount);
+    } else {
+        printf("Starting brute force search for 8 Queens solutions...\n\n");
+        bruteForce(&solutionCount);
+        printf("Total solutions for brute force: %d\n", solutionCount);
+    }
 }
